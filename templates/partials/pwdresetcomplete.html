@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>resetcomplete</title>
+</head>
+
+<body>
+  {% load static%}
+  {% include "partials/links.html" %}
+
+
+  {% block content %}
+  
+
+    <div class="container my-5">
+        <div class="row">
+        <h3>Congratulations .</h3>
+            <div class="col-sm-9 offset-sm-1 text-center">
+                <h3>You Completed Your Password Reset ! ! !</h3>
+            </div>
+        </div>
+        <button class="btn btn-success"><a href="{% url 'logout' %}">Login</a></button>
+    </div>
+
+  
+  {% endblock %}
+
+</body>
+
+</html>

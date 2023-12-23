@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+{% load static %}
+<body>
+{% include "partials/links.html"%}
+
+{% if page == 'login' %}
+<div class="loginbody">
+    <div class="login">
+        <div class="logincard">
+            <br>
+            <div class="logo">
+                <h2>Service<span>Pack</span></h2>
+            </div>
+                    {% if messages %}
+                        {% for msg in messages %}
+                            <div class="alert alert-danger{{msg.tags}}" style="color: crimson;" role="alert">
+                                {{msg}}
+                            </div>
+                        {%endfor%}
+                    {% endif %}
+            <form method="post">
+              {% csrf_token %}
+              <div class="loginput">
+                <label for="username">UserName:</label>
+                <input type="text" id="username" name="username" required>
+                <br>
+                <label for="password">Password:</label>
+                <div class="password-container">
+                    <input type="password" id="password" name="password" required>
+                    <img src="{% static 'images/eye-regular.svg' %}" alt="" id="showPassword">
+                </div>
+                <p><a href="{% url 'passwordreset' %}">Forgot Password?</a></p>
+              </div>
+              <br>
+              <button type="submit" name="btnLogin">Login</button>
+              
+            </form>
+
+            <script>
+                var showPassword = document.getElementById("showPassword");
+                var passwordInput = document.getElementById("password");
+            
+                showPassword.addEventListener("click", function () {
+                    if (passwordInput.type === "password") {
+                        passwordInput.type = "text";
+                        // Update the image to the "eye-slash" icon
+                        this.src = "{% static 'images/eye-slash-regular.svg' %}";
+                    } else {
+                        passwordInput.type = "password";
+                        // Update the image to the "eye" icon
+                        this.src = "{% static 'images/eye-regular.svg' %}";
+                    }
+                });
+            </script>
+            
+        </div>
+    </div>
+</div>
+{%endif%}
+</body>
+</html>
+
+
+
+
