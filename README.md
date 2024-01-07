@@ -1,53 +1,31 @@
-# Django Human Resource Service Application (beta)
-This is a Simple Student Management System Developed for Educational Purpose using Python (Django).
-Feel free to make changes based on your requirements.
-
-[Project Demo on YouTube](https://www.youtube.com/watch?v=kArCR96m7uo "Django Student Management System Demo")
-
-I've created this project while learnging Django and followed tutorial series from **SuperCoders**
-
-And if you like this project then ADD a STAR ⭐️  to this project 👆
+# Django Human Resource Service Application
 
 ## Features of this Project
 
 ### A. Admin Users Can
-1. See Overall Summary Charts of Stuudents Performance, Staffs Perfomrances, Courses, Subjects, Leave, etc.
+1. See Overall Summary Charts of Staff Performance, Managers Perfomrances, Departments, Positions, Leave, etc.
 2. Manage Staffs (Add, Update and Delete)
-3. Manage Students (Add, Update and Delete)
-4. Manage Course (Add, Update and Delete)
-5. Manage Subjects (Add, Update and Delete)
-6. Manage Sessions (Add, Update and Delete)
-7. View Student Attendance
-8. Review and Reply Student/Staff Feedback
-9. Review (Approve/Reject) Student/Staff Leave
+3. Manage Managers (Add, Update and Delete)
+4. Manage Departments (Add, Update and Delete)
+5. Manage Positions (Add, Update and Delete)
+6. Manage Contracts (Add, Update and Delete)
+7. View Staff Attendance
+8. Review and Reply Manager/Staff Feedback
+9. Review (Approve/Reject) Manager/Staff Leave
 
-### B. Staff/Teachers Can
-1. See the Overall Summary Charts related to their students, their subjects, leave status, etc.
-2. Take/Update Students Attendance
-3. Add/Update Result
+### B. Managers Can
+1. See the Overall Summary Charts related to their staff, their positions, leave status, etc.
+2. Take/Update Staff Attendance
+3. Add/Update Points/bonus
 4. Apply for Leave
-5. Send Feedback to HOD
+5. Send Feedback to HR
 
-### C. Students Can
-1. See the Overall Summary Charts related to their attendance, their subjects, leave status, etc.
+### C. Staffs Can
+1. See the Overall Summary Charts related to their attendance, their positions, leave status, etc.
 2. View Attendance
-3. View Result
+3. View Points/bonus
 4. Apply for Leave
-5. Send Feedback to HOD
-
-
-## Support Developer
-1. Subscribe & Share my YouTube Channel - https://bit.ly/vijay-thapa-online-courses
-2. Add a Star 🌟  to this 👆 Repository
-
-
-## Donate
-
-**[PayPal](https://bit.ly/support-vijay-thapa)**
-
-**[Buy me a Coffee  ☕️](https://www.buymeacoffee.com/vijaythapa)**
-
-**Donate by wire transfer:** E-Mail at *donate@vijaythapa.com* for wire transfer details. 
+5. Send Feedback to HR/managers
 
 
 ## How to Install and Run this project?
@@ -62,7 +40,6 @@ And if you like this project then ADD a STAR ⭐️  to this project 👆
 3. Install Pip (Package Manager)
 [ https://pip.pypa.io/en/stable/installing/ ]
 
-*Alternative to Pip is Homebrew*
 
 ### Installation
 **1. Create a Folder where you want to save the project**
@@ -99,12 +76,12 @@ $  source venv/bin/activate
 
 **3. Clone this project**
 ```
-$  git clone https://github.com/vijaythapa333/django-student-management-system.git
+$  git clone https://github.com/Wilco619/HR-Service-Application.git
 ```
 
 Then, Enter the project
 ```
-$  cd django-student-management-system
+$  cd HR-Service-Application
 ```
 
 **4. Install Requirements from 'requirements.txt'**
@@ -136,29 +113,9 @@ $ python3 manage.py runserver
 
 **7. Login Credentials**
 
-Create Super User (HOD)
+Create Super User (HR)
 ```
 $  python manage.py createsuperuser
 ```
 Then Add Email, Username and Password
-
-**or Use Default Credentials**
-
-*For HOD /SuperAdmin*
-Email: admin@gmail.com
-Password: admin
-
-*For Staff*
-Email: staff@gmail.com
-Password: staff
-
-*For Student*
-Email: student@gmail.com
-Password: student
-
-
-
-## For Sponsor or Projects Enquiry
-1. Email - hi@vijaythapa.com
-2. LinkedIn - [vijaythapa](https://www.linkedin.com/in/vijaythapa "Vijay Thapa on LinkedIn")
 
