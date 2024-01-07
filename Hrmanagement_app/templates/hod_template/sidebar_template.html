@@ -1,0 +1,154 @@
+{% load static %}
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <!-- Brand Logo -->
+      <a href="{% url 'admin_home' %}" class="brand-link">
+        <img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+            style="opacity: .8">
+        <span class="brand-text font-weight-light">HR Service App</span>
+      </a>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+          <div class="image">
+            <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
+          </div>
+          <div class="info">
+            <a href="{% url 'admin_profile' %}" class="d-block">{{ user.first_name | capfirst }} {{ user.last_name | capfirst}}</a>
+          </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <!-- Add icons to the links using the .nav-icon class
+                with font-awesome or any other icon font library -->
+
+            <li class="nav-item">
+              {% url 'admin_home' as admin_home %}
+              <a href="{{ admin_home }}" class="nav-link {% if request.path == admin_home %} active {% endif %}">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                  Home
+                </p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              {% url 'manage_manager' as manage_manager %}
+              {% url 'edit_manager' manager_id=id as edit_manager %}
+              <a href="{{ manage_manager }}" class="nav-link {% if request.path == manage_manager %} active {% endif %} {% if request.path == edit_manager %} active {% endif %}">
+                <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                <p>
+                  Manage Manager
+                </p>
+              </a>
+            </li>
+            
+        
+            <li class="nav-item">
+              {% url 'manage_staff' as manage_staff %}
+              {% url 'edit_staff' staff_id=id as edit_staff %}
+              <a href="{{ manage_staff }}" class="nav-link {% if request.path == manage_staff %} active {% endif %} {% if request.path == edit_staff %} active {% endif %}">
+                <i class="fa-solid fa fa-users"></i>
+                <p>
+                  Manage Staff
+                </p>
+              </a>
+            </li>
+
+            
+            <li class="nav-item">
+              {% url 'manage_department' as manage_department %}
+              {% url 'edit_department' department_id=id as edit_department %}
+              <a href="{{ manage_department }}" class="nav-link {% if request.path == manage_department %} active {% endif %} {% if request.path == edit_department %} active {% endif %}">
+                <i class="nav-icon fas fa-chalkboard"></i>
+                <p>
+                  Manage Department
+                </p>
+              </a>
+            </li>
+
+           
+            <li class="nav-item">
+              {% url 'manage_position' as manage_position %}
+              {% url 'edit_position' position_id=id as edit_position %}
+              <a href="{{ manage_position }}" class="nav-link {% if request.path == manage_position %} active {% endif %} {% if request.path == edit_position %} active {% endif %}">
+                <i class="nav-icon fas fa-book"></i>
+                <p>
+                  Manage Position
+                </p>
+              </a>
+            </li>
+
+           
+            <li class="nav-item">
+              {% url 'manage_contract' as manage_contract %}
+              {% url 'edit_contract' contract_id=id as edit_contract %}
+              <a href="{{ manage_contract }}" class="nav-link {% if request.path == manage_contract %} active {% endif %} {% if request.path == edit_contract %} active {% endif %}">
+                <i class="fa-solid fa fa-folder"></i>
+                <p>
+                  Manage Contract 
+                </p>
+              </a>
+            </li>
+
+          
+            <li class="nav-item">
+              {% url 'admin_view_attendance' as admin_view_attendance %}
+              <a href="{{ admin_view_attendance }}" class="nav-link {% if request.path == admin_view_attendance %} active {% endif %}">
+                <i class="nav-icon fas fa-calendar-alt"></i>
+                <p>
+                  View Attendance
+                </p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              {% url 'staff_feedback_message' as staff_feedback_message %}
+              <a href="{{ staff_feedback_message }}" class="nav-link {% if request.path == staff_feedback_message %} active {% endif %}">
+                <i class="nav-icon fas fa-comments"></i>
+                <p>
+                  Staff Feedback
+                </p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              {% url 'manager_feedback_message' as manager_feedback_message %}
+              <a href="{{ manager_feedback_message }}" class="nav-link {% if request.path == manager_feedback_message %} active {% endif %}">
+                <i class="nav-icon fas fa-comments"></i>
+                <p>
+                  Manager Feedback
+                </p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              {% url 'staff_leave_view' as staff_leave_view %}
+              <a href="{{ staff_leave_view }}" class="nav-link {% if request.path == staff_leave_view %} active {% endif %}">
+                <i class="nav-icon fas fa-envelope-open-text"></i>
+                <p>
+                  Staff Leave
+                </p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              {% url 'manager_leave_view' as manager_leave_view %}
+              <a href="{{ manager_leave_view }}" class="nav-link {% if request.path == manager_leave_view %} active {% endif %}">
+                <i class="nav-icon fas fa-envelope-open-text"></i>
+                <p>
+                  Manager Leave
+                </p>
+              </a>
+            </li>
+
+          </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+      </div>
+      <!-- /.sidebar -->
+    </aside>

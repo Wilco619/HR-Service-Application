@@ -1,0 +1,155 @@
+{% extends 'hod_template/base_template.html' %}
+
+{% block page_title %}
+    Manage Manager
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="content">
+    <div class="container-fluid">
+
+        <a class="btn btn-primary" href="{% url 'add_manager' %}" role="button">+ Add Manager</a> <br/>&nbsp;
+        
+        {% if messages %}
+            <div class="form-group">
+                <div class="col-12">
+                    {% for message in messages %}
+                        {% if message.tags == "error" %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% elif message.tags == "success" %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Manager Details</h3>
+                        <div class="card-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0" id="grid-container">
+                        {% for manager in managers %}
+                            <div class="grid-container">
+                                <div class="card-container">
+                                    <div class="card">
+                                        <div class="user-image">
+                                            <img src="{{ manager.profile_pic }}" style="width: 90px; height: 90px; border-radius: 50px; background-image: url('/static/dist/img/user-solid.svg');" />
+                                            <div class="user-details"> 
+                                                <h6><b>{{ manager.admin.first_name | capfirst }} {{ manager.admin.last_name | capfirst }}</b></h6> 
+                                                <h6>National_ID: <b>{{ manager.i_d }}</b></h6>
+                                                <h6>Phone: <b>{{ manager.phone }}</b></h6>
+                                            </div>
+                                        </div>
+                                        <div class="container">
+                                            
+                                            
+                                            <h6>Department: <b>{{ manager.department_id.department_name | capfirst }}</b></h6>
+                                            <h6>Last login: <b>{{ manager.admin.last_login }}</b></h6> 
+                                            
+                                            <a href="#"><button style="font-size: 12px;" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#memberDetailsModal{{ manager.admin.id }}">Details</button></a>
+                                            <a href="{% url 'edit_manager' manager.admin.id %}" style="font-size: 12px;" class="btn btn-outline-success">Edit</a> 
+                                            <a href="#"><button style="font-size: 12px;" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#memberDeleteModal{{ manager.admin.id }}">Delete</button></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="memberDeleteModal{{ manager.admin.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel{{ manager.admin.id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="staticBackdropLabel{{ manager.admin.id }}">Delete</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="popup-layer">
+                                                <div class="popup-card">
+                                                    <div class="popup-content">
+                                                        <p><b>Are you sure you want to delete details for</b> {{ manager.admin.first_name | capfirst }} {{ manager.admin.last_name | capfirst }} <b>!</b></p>
+                                                    
+                                                        <!-- Display other details here as needed -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <a href="{% url 'delete_manager' manager.admin.id %}" class="btn btn-danger">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--details display-->
+                            <div class="modal fade" id="memberDetailsModal{{ manager.admin.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel{{ manager.admin.id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="staticBackdropLabel{{ manager.admin.id }}">Details</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="popup-layer">
+                                                <div class="popup-card">
+                                                    <div class="popup-content">
+                                                        <img src="{{ manager.profile_pic }}" style="width: 90px; height: 90px; border-radius: 50px; background-image: url('/static/dist/img/user-solid.svg');" />
+                                                        <p><b>Name: </b>{{ manager.admin.first_name | capfirst }} {{ manager.admin.last_name | capfirst }}</p>
+                                                        <p><b>Date joined: </b>{{ manager.admin.date_joined }}</p>
+                                                        <p><b>Address: </b>{{ manager.address }}</p>
+                                                        <p><b>Username: </b>{{ manager.admin.username | capfirst }}</p>
+                                                        <p><b>Email: </b>{{ manager.admin.email | capfirst }}</p>
+                                                        <p><b>Gender: </b>{{ manager.gender | capfirst }}</p>
+                                                        <p><b>Contract start year: </b>{{ manager.contract_year_id.contract_start_year }}</p>
+                                                        <p><b>Contract end year: </b>{{ manager.contract_year_id.contract_end_year }}</p>
+                                                        
+                                                        
+                                                        <!-- Display other details here as needed -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+{% endblock main_content %}
