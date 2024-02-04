@@ -2632,7 +2632,7 @@ textarea.form-control.is-warning {
   background: #32769d;
   color: #ffffff;
 }
-
+card-body
 .card.bg-lightblue .bootstrap-datetimepicker-widget table td.today::before,
 .card.bg-gradient-lightblue .bootstrap-datetimepicker-widget table td.today::before {
   border-bottom-color: #ffffff;
@@ -3492,7 +3492,7 @@ textarea.form-control.is-warning {
 
 .card.bg-yellow .bootstrap-datetimepicker-widget table td.active,
 .card.bg-yellow .bootstrap-datetimepicker-widget table td.active:hover,
-.card.bg-gradient-yellow .bootstrap-datetimepicker-widget table td.active,
+.card.bg-gradient-yellow .card-bodybootstrap-datetimepicker-widget table td.active,
 .card.bg-gradient-yellow .bootstrap-datetimepicker-widget table td.active:hover {
   background: #ffce3a;
   color: #1F2D3D;

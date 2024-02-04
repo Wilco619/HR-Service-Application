@@ -1,12 +1,12 @@
 {% load static %}
 
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="main-sidebar sidebar-dark-success elevation-2">
       <!-- Brand Logo -->
-      <a href="{% url 'admin_home' %}" class="brand-link">
+      {% comment %} <a href="{% url 'admin_home' %}" class="brand-link">
         <img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
             style="opacity: .8">
         <span class="brand-text font-weight-light">HR Service App</span>
-      </a>
+      </a> {% endcomment %}
 
       <!-- Sidebar -->
       <div class="sidebar">
@@ -76,7 +76,7 @@
               {% url 'manage_position' as manage_position %}
               {% url 'edit_position' position_id=id as edit_position %}
               <a href="{{ manage_position }}" class="nav-link {% if request.path == manage_position %} active {% endif %} {% if request.path == edit_position %} active {% endif %}">
-                <i class="nav-icon fas fa-book"></i>
+                <i class="fa-solid fas fa-file-signature"></i>
                 <p>
                   Manage Position
                 </p>
@@ -142,6 +142,26 @@
                 <i class="nav-icon fas fa-envelope-open-text"></i>
                 <p>
                   Manager Leave
+                </p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              {% url 'manager_leave_view' as manager_leave_view %}
+              <a href="https://forms.gle/WEtGLyWDhU8pMkyL9" target="_blank">
+                <i class="nav-icon fas fa-envelope-open-text"></i>
+                <p>
+                  Apply Job
+                </p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              {% url 'manager_leave_view' as manager_leave_view %}
+              <a href="https://docs.google.com/spreadsheets/d/1dMd3Xxu2VDW6bARgw2Oo7TFb3bRTUNa5V7ePaQGzM18/edit?usp=sharing" target="_blank">
+                <i class="nav-icon fas fa-envelope-open-text"></i>
+                <p>
+                  Apply Job Responses
                 </p>
               </a>
             </li>

@@ -10,29 +10,28 @@
           <div class="row">
             <div class="col-lg-3 col-6">
               <!-- small box -->
-              <div class="small-box bg-info">
-                <div class="inner">
-                  <h3>{{ all_staff_count }}</h3>
-
+              <div class="small-box" id="linka">
+                <div class="col-lg-3 stats">
+                  <h3 class="counting" data-count="{{ all_staff_count }}">0</h3>
                   <p>Total Staffs</p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-stats-bars"></i>
+                  <i class="fa-solid fa fa-users"></i>
                 </div>
-                <a href="{% url 'manage_staff' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{% url 'manage_staff' %}" class="small-box-footer">Total Staffs <i class="fas fa-arrow-circle-right"></i></a>
               </div>
+              
             </div>
             <!-- ./col -->
             <div class="col-lg-3 col-6">
               <!-- small box -->
-              <div class="small-box bg-danger">
-                <div class="inner">
-                  <h3>{{ manager_count }}</h3>
-
+              <div class="small-box" id="linka">
+                <div class="col-lg-3 stats">
+                  <h3 class="counting" data-count="{{ manager_count }}">0</h3>
                   <p>Total Managers</p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-stats-bars"></i>
+                  <i class="nav-icon fas fa-chalkboard-teacher"></i>
                 </div>
                 <a href="{% url 'manage_manager' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
@@ -41,14 +40,13 @@
             
             <div class="col-lg-3 col-6">
               <!-- small box -->
-              <div class="small-box bg-warning">
-                <div class="inner">
-                  <h3>{{ department_count }}</h3>
-
+              <div class="small-box" id="linka">
+                <div class="col-lg-3 stats">
+                  <h3 class="counting" data-count="{{ department_count }}">0</h3>
                   <p>Total Departments</p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-stats-bars"></i>
+                  <i class="nav-icon fas fa-chalkboard"></i>
                 </div>
                 <a href="{% url 'manage_department' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
@@ -56,14 +54,13 @@
             <!-- ./col -->
             <div class="col-lg-3 col-6">
               <!-- small box -->
-              <div class="small-box bg-success">
-                <div class="inner">
-                  <h3>{{ position_count }}</h3>
-
+              <div class="small-box" id="linka">
+                <div class="col-lg-3 stats">
+                  <h3 class="counting" data-count="{{ position_count }}">0</h3>
                   <p>Total Positions</p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-stats-bars"></i>
+                  <i class="fa-solid fas fa-file-signature"></i>
                 </div>
                 <a href="{% url 'manage_position' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
@@ -73,11 +70,89 @@
           </div>
           <!-- /.row -->
           <div class="row">
+            <div class="row">
+              <!-- PIE CHART -->
+              <div class="col-lg-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-title">Staff and Manager Chart</h3>
+                    <canvas id="pieChart" style="min-height: 150px; height: 150px; max-height: 150px; max-width: 100%;"></canvas>
+                  </div>
+                </div>
+              </div>
+            
+              <div class="col-lg-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-title">Total Positions in Each Department</h3>
+                    <canvas id="donutChart" style="min-height: 150px; height: 150px; max-height: 150px; max-width: 100%;"></canvas>
+                  </div>
+                </div>
+              </div>
+            
+              <div class="col-lg-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-title">Total Staff in Each Department</h3>
+                    <canvas id="pieChart2" style="min-height: 150px; height: 150px; max-height: 150px; max-width: 100%;"></canvas>
+                  </div>
+                </div>
+              </div>
+            
+              <div class="col-lg-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-title">Total Staffs in Each Position</h3>
+                    <canvas id="pieChart3" style="min-height: 150px; height: 150px; max-height: 150px; max-width: 100%;"></canvas>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+            
+
+            <div class="row">
+              <!-- First Row -->
+              <div class="col-lg-12">
+                <!-- DONUT CHART -->
+                <div class="card">
+                  <h3 class="card-title">Manager Attendance vs Leave</h3>
+                  <div class="card-body">
+                    
+                    <div class="chart">                   
+                      <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row">
+              <!-- Second Row -->
+              <div class="col-lg-12">
+                <!-- DONUT CHART -->
+                <div class="card">
+                  <h3 class="card-title">Staff Attendance vs Leave</h3>
+                  <div class="card-body">
+                    
+                    <div class="chart">
+                      <canvas id="barChart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+          {% comment %} <div class="row">
+
             <div class="col-lg-6">
               <!-- PIE CHART -->
-              <div class="card card-danger">
+              <div class="card card-info">
                 <div class="card-header">
-                  <h3 class="card-title">Staff and Manager Chart</h3>
+                  
 
                   <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
@@ -85,19 +160,16 @@
                     <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
                   </div>
                 </div>
-                <div class="card-body">
-                  <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                </div>
+                
                 <!-- /.card-body -->
-              </div>
-              <!-- /.card -->
+                </div>
             </div>
 
             <div class="col-lg-6">
-              <!-- DONUT CHART -->
-              <div class="card card-danger">
+              <!-- PIE CHART -->
+              <div class="card card-info">
                 <div class="card-header">
-                  <h3 class="card-title">Total Positions in Each Department</h3>
+                  
 
                   <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
@@ -105,75 +177,26 @@
                     <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
                   </div>
                 </div>
-                <div class="card-body">
-                  <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                </div>
+                
                 <!-- /.card-body -->
+            </div>
+            </div>
+          </div> {% endcomment %}
+
+        {% comment %} <div class="row">
+          <div class="col-lg-12">
+            <!-- BAR CHART -->
+            <div class="card card-success">
+              <div class="card-header">
+                
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                </div>
               </div>
-              <!-- /.card -->
               
-            </div>
-          </div>
-
-          <div class="row">
-
-            <div class="col-lg-6">
-              <!-- PIE CHART -->
-              <div class="card card-info">
-                <div class="card-header">
-                  <h3 class="card-title">Total Staff in Each Department</h3>
-
-                  <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <canvas id="pieChart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                </div>
-                <!-- /.card-body -->
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-              <!-- PIE CHART -->
-              <div class="card card-info">
-                <div class="card-header">
-                  <h3 class="card-title">Total Staffs in Each Position</h3>
-
-                  <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <canvas id="pieChart3" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                </div>
-                <!-- /.card-body -->
-            </div>
-            </div>
-          </div>
-
-        <div class="row">
-          <div class="col-lg-12">
-            <!-- BAR CHART -->
-            <div class="card card-success">
-              <div class="card-header">
-                <h3 class="card-title">Manager Attendance vs Leave</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="chart">
-                  <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                </div>
-              </div>
               <!-- /.card-body -->
             </div>
             <!-- /.card -->
@@ -191,7 +214,7 @@
             <!-- BAR CHART -->
             <div class="card card-success">
               <div class="card-header">
-                <h3 class="card-title">Staff Attendance vs Leave</h3>
+                
 
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
@@ -199,11 +222,7 @@
                   <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
                 </div>
               </div>
-              <div class="card-body">
-                <div class="chart">
-                  <canvas id="barChart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                </div>
-              </div>
+              
               <!-- /.card-body -->
             </div>
             <!-- /.card -->
@@ -214,7 +233,7 @@
             
           </div>
         
-        </div>
+        </div> {% endcomment %}
 
         </div><!-- /.container-fluid -->
       </section>
@@ -234,7 +253,7 @@
         datasets: [
           {
             data: [{{ all_staff_count }}, {{ manager_count }}],
-            backgroundColor : ['#f56954', '#00a65a'],
+            backgroundColor : ['#EE7214', '#4F6F52'],
           }
         ]
       }
@@ -357,7 +376,7 @@
         datasets: [
           {
             label               : 'Leave',
-            backgroundColor     : 'rgba(60,141,188,0.9)',
+            backgroundColor     : '#EE7214',
             borderColor         : 'rgba(60,141,188,0.8)',
             pointRadius          : false,
             pointColor          : '#3b8bba',
@@ -368,7 +387,7 @@
           },
           {
             label               : 'Attendance',
-            backgroundColor     : 'rgba(210, 214, 222, 1)',
+            backgroundColor     : '#527853',
             borderColor         : 'rgba(210, 214, 222, 1)',
             pointRadius         : false,
             pointColor          : 'rgba(210, 214, 222, 1)',
@@ -413,7 +432,7 @@
         datasets: [
           {
             label               : 'Leave',
-            backgroundColor     : 'rgba(60,141,188,0.9)',
+            backgroundColor     : '#EE7214',
             borderColor         : 'rgba(60,141,188,0.8)',
             pointRadius          : false,
             pointColor          : '#3b8bba',
@@ -424,7 +443,7 @@
           },
           {
             label               : 'Attendance',
-            backgroundColor     : 'rgba(210, 214, 222, 1)',
+            backgroundColor     : '#527853',
             borderColor         : 'rgba(210, 214, 222, 1)',
             pointRadius         : false,
             pointColor          : 'rgba(210, 214, 222, 1)',

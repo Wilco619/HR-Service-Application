@@ -11,7 +11,7 @@ import json
 
 from Hrmanagement_app.models import CustomUser, Manager, Department, Position, Staff, ContractYearModel, FeedBackStaff, FeedBackManager, LeaveReportStaff, LeaveReportManager, Attendance, AttendanceReport
 from .forms import AddStaffForm, EditStaffForm
-
+    
 
 def admin_home(request):
     all_staff_count = Staff.objects.all().count()
