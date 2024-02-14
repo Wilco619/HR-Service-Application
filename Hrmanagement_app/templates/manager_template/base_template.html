@@ -18,6 +18,8 @@
   <link rel="stylesheet" href="{% static "icheck-bootstrap/icheck-bootstrap.min.css" %}">
   <!-- JQVMap -->
   <link rel="stylesheet" href="{% static "jqvmap/jqvmap.min.css" %}">
+  <link rel="stylesheet" href="{% static 'dist/css/statscount.css'  %}">
+
   <!-- Theme style -->
   <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css'  %}">
   <!-- overlayScrollbars -->
@@ -28,6 +30,12 @@
   <link rel="stylesheet" href="{% static "summernote/summernote-bs4.css" %}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+  <!-- Include easyPieChart CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/easy-pie-chart/2.1.7/jquery.easypiechart.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+
 
     {% comment %} For Custom CSS {% endcomment %}
 
@@ -148,6 +156,13 @@
 <script src="{% static 'dist/js/pages/dashboard.js'  %}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{% static 'dist/js/demo.js'  %}"></script>
+<script src="{% static 'dist/js/statscount.js'  %}"></script>
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha384-oL5SvnrTpTqFbJth5HPObL1s5wUtOSAv9zfb5lauRabF5r+48U/6RTFC+PtbvSc" crossorigin="anonymous"></script>
+
+<!-- Include easyPieChart JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/easy-pie-chart/2.1.7/jquery.easypiechart.min.js" integrity="sha384-x2A6aBtxKG8BjX2viKA7Vfn3AgUQRIqZ3qxU5RUor7A2oMdB/Bq8jbL2EPAnMzY" crossorigin="anonymous"></script>
 
 {% comment %} For Custom JS {% endcomment %}
 {% block custom_js %}

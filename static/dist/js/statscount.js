@@ -9,7 +9,7 @@ $('.counting').each(function() {
     },
   
     {
-  
+      delay: 1000,
       duration: 400,
       easing:'linear',
       step: function() {
