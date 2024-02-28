@@ -1,7 +1,7 @@
 {% extends 'staff_template/base_template.html' %}
 
 {% block page_title %}
-    Result
+    Bonus/Incentive
 {% endblock page_title %}
 
 {% block main_content %}
@@ -17,7 +17,7 @@
                 <div class="col-md-12">
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">Result</h3>
+                            <h3 class="card-title">Bonus/Incentive</h3>
                         </div>
 
                         <div class="card-body">
@@ -25,11 +25,13 @@
                                 <table class="table">
                                     <thead class="thead-light">
                                     <tr>
-                                        <th>#ID</th>
+                                        <th>#</th>
                                         <th>Position</th>
-                                        <th>Assignments Marks</th>
-                                        <th>Exam Marks</th>
-                                        <th>status</th>
+                                        <th>Bonus</th>
+                                        <th>Incentive</th>
+                                        <th>Date</th>
+                                        <th>comment</th>
+
                                     </tr>
                                     </thead>
                                     
@@ -37,15 +39,17 @@
                                     <tr>
                                         <td>{{ row.id }}</td>
                                         <td>{{ row.position_id.position_name }}</td>
-                                        <td>{{ row.position_assignment_marks }}</td>
-                                        <td>{{ row.position_exam_marks }}</td>
+                                        <td>ksh {{ row.position_bonus_point }}</td>
+                                        <td>Ksh {{ row.position_incentive_point }}</td>
+                                        <td>{{ row.updated_at }}</td>
                                         <td>
-                                            {% if row.position_exam_marks >= 40 %}
-                                                <span class="alert alert-success">Pass</span>
+                                            {% if row.position_bonus_point <= 1000 %}
+                                                <span class="alert alert-warning">Good</span>
                                             {% else %}
-                                                <span class="alert alert-danger">Fail</span>
+                                                <span class="alert alert-success">Great Work</span>
                                             {% endif %}
                                         </td>
+
                                     </tr>
                                     {% endfor %}
                                 </table>

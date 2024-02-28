@@ -92,7 +92,7 @@ urlpatterns = [
     path('manager_add_result/', ManagerViews.manager_add_result, name="manager_add_result"),
     path('manager_add_result_save/', ManagerViews.manager_add_result_save, name="manager_add_result_save"),
 
-    # URSL for Staff
+    # URLS for Staff
     path('staff_home/', StaffViews.staff_home, name="staff_home"),
     path('staff_view_attendance/', StaffViews.staff_view_attendance, name="staff_view_attendance"),
     path('staff_view_attendance_post/', StaffViews.staff_view_attendance_post, name="staff_view_attendance_post"),

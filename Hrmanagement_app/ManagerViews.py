@@ -1,14 +1,15 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib import messages
-from django.core.files.storage import FileSystemStorage #To upload Profile Picture
+from django.core.files.storage import FileSystemStorage  # To upload Profile Picture
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
 
-
-from Hrmanagement_app.models import CustomUser, Staff, Department, Position, Manager, ContractYearModel, Attendance, AttendanceReport, LeaveReportManager, FeedBackManager, StaffPoint
+from Hrmanagement_app.models import CustomUser, Staff, Department, Position, Manager, ContractYearModel, Attendance, \
+    AttendanceReport, LeaveReportManager, FeedBackManager, StaffPoint
 
 
 def manager_home(request):
@@ -19,13 +20,13 @@ def manager_home(request):
     for position in positions:
         department = Department.objects.get(id=position.department_id.id)
         department_id_list.append(department.id)
-    
+
     final_department = []
     # Removing Duplicate Department Id
     for department_id in department_id_list:
         if department_id not in final_department:
             final_department.append(department_id)
-    
+
     staffs_count = Staff.objects.filter(department_id__in=final_department).count()
     position_count = positions.count()
 
@@ -35,7 +36,7 @@ def manager_home(request):
     manager = Manager.objects.get(admin=request.user.id)
     leave_count = LeaveReportManager.objects.filter(manager_id=manager.id, leave_status=1).count()
 
-    #Fetch Attendance Data by Position
+    # Fetch Attendance Data by Position
     position_list = []
     attendance_list = []
     for position in positions:
@@ -50,11 +51,11 @@ def manager_home(request):
     for staff in staffs_attendance:
         attendance_present_count = AttendanceReport.objects.filter(status=True, staff_id=staff.id).count()
         attendance_absent_count = AttendanceReport.objects.filter(status=False, staff_id=staff.id).count()
-        staff_list.append(staff.admin.first_name+" "+ staff.admin.last_name)
+        staff_list.append(staff.admin.first_name + " " + staff.admin.last_name)
         staff_list_attendance_present.append(attendance_present_count)
         staff_list_attendance_absent.append(attendance_absent_count)
 
-    context={
+    context = {
         "staffs_count": staffs_count,
         "attendance_count": attendance_count,
         "leave_count": leave_count,
@@ -66,7 +67,6 @@ def manager_home(request):
         "attendance_absent_list": staff_list_attendance_absent
     }
     return render(request, "manager_template/manager_home_template.html", context)
-
 
 
 def manager_take_attendance(request):
@@ -98,7 +98,8 @@ def manager_apply_leave_save(request):
 
         manager_obj = Manager.objects.get(admin=request.user.id)
         try:
-            leave_report = LeaveReportManager(manager_id=manager_obj, leave_date=leave_date, leave_message=leave_message, leave_status=0)
+            leave_report = LeaveReportManager(manager_id=manager_obj, leave_date=leave_date,
+                                              leave_message=leave_message, leave_status=0)
             leave_report.save()
             messages.success(request, "Applied for Leave.")
             return redirect('manager_apply_leave')
@@ -111,7 +112,7 @@ def manager_feedback(request):
     manager_obj = Manager.objects.get(admin=request.user.id)
     feedback_data = FeedBackManager.objects.filter(manager_id=manager_obj)
     context = {
-        "feedback_data":feedback_data
+        "feedback_data": feedback_data
     }
     return render(request, "manager_template/manager_feedback_template.html", context)
 
@@ -153,12 +154,10 @@ def get_staffs(request):
     list_data = []
 
     for staff in staffs:
-        data_small={"id":staff.admin.id, "name":staff.admin.first_name+" "+staff.admin.last_name}
+        data_small = {"id": staff.admin.id, "name": staff.admin.first_name + " " + staff.admin.last_name}
         list_data.append(data_small)
 
     return JsonResponse(json.dumps(list_data), content_type="application/json", safe=False)
-
-
 
 
 @csrf_exempt
@@ -179,7 +178,8 @@ def save_attendance_data(request):
     # print(staff_ids)
     try:
         # First Attendance Data is Saved on Attendance Model
-        attendance = Attendance(position_id=position_model, attendance_date=attendance_date, contract_year_id=contract_year_model)
+        attendance = Attendance(position_id=position_model, attendance_date=attendance_date,
+                                contract_year_id=contract_year_model)
         attendance.save()
 
         for stud in json_staff:
@@ -192,8 +192,6 @@ def save_attendance_data(request):
         return HttpResponse("Error")
 
 
-
-
 def manager_update_attendance(request):
     positions = Position.objects.filter(manager_id=request.user.id)
     contract_years = ContractYearModel.objects.all()
@@ -203,10 +201,9 @@ def manager_update_attendance(request):
     }
     return render(request, "manager_template/update_attendance_template.html", context)
 
+
 @csrf_exempt
 def get_attendance_dates(request):
-    
-
     # Getting Values from Ajax POST 'Fetch Staff'
     position_id = request.POST.get("position")
     contract_year = request.POST.get("contract_year_id")
@@ -224,7 +221,8 @@ def get_attendance_dates(request):
     list_data = []
 
     for attendance_single in attendance:
-        data_small={"id":attendance_single.id, "attendance_date":str(attendance_single.attendance_date), "contract_year_id":attendance_single.contract_year_id.id}
+        data_small = {"id": attendance_single.id, "attendance_date": str(attendance_single.attendance_date),
+                      "contract_year_id": attendance_single.contract_year_id.id}
         list_data.append(data_small)
 
     return JsonResponse(json.dumps(list_data), content_type="application/json", safe=False)
@@ -241,7 +239,9 @@ def get_attendance_staff(request):
     list_data = []
 
     for staff in attendance_data:
-        data_small={"id":staff.staff_id.admin.id, "name":staff.staff_id.admin.first_name+" "+staff.staff_id.admin.last_name, "status":staff.status}
+        data_small = {"id": staff.staff_id.admin.id,
+                      "name": staff.staff_id.admin.first_name + " " + staff.staff_id.admin.last_name,
+                      "status": staff.status}
         list_data.append(data_small)
 
     return JsonResponse(json.dumps(list_data), content_type="application/json", safe=False)
@@ -257,13 +257,13 @@ def update_attendance_data(request):
     json_staff = json.loads(staff_ids)
 
     try:
-        
+
         for stud in json_staff:
             # Attendance of Individual Staff saved on AttendanceReport Model
             staff = Staff.objects.get(admin=stud['id'])
 
             attendance_report = AttendanceReport.objects.get(staff_id=staff, attendance_id=attendance)
-            attendance_report.status=stud['status']
+            attendance_report.status = stud['status']
 
             attendance_report.save()
         return HttpResponse("OK")
@@ -275,7 +275,7 @@ def manager_profile(request):
     user = CustomUser.objects.get(id=request.user.id)
     manager = Manager.objects.get(admin=user)
 
-    context={
+    context = {
         "user": user,
         "manager": manager
     }
@@ -311,7 +311,6 @@ def manager_profile_update(request):
             return redirect('manager_profile')
 
 
-
 def manager_add_result(request):
     positions = Position.objects.filter(manager_id=request.user.id)
     contract_years = ContractYearModel.objects.all()
@@ -328,28 +327,30 @@ def manager_add_result_save(request):
         return redirect('manager_add_result')
     else:
         staff_admin_id = request.POST.get('staff_list')
-        assignment_marks = request.POST.get('assignment_marks')
-        exam_marks = request.POST.get('exam_marks')
+        bonus = request.POST.get('bonus')
+        incentive = request.POST.get('incentive')
         position_id = request.POST.get('position')
 
-        staff_obj = Staff.objects.get(admin=staff_admin_id)
-        position_obj = Position.objects.get(id=position_id)
-
         try:
+            staff_obj = Staff.objects.get(admin=staff_admin_id)
+            position_obj = Position.objects.get(id=position_id)
+
             # Check if Staff Result Already Exists or not
             check_exist = StaffPoint.objects.filter(position_id=position_obj, staff_id=staff_obj).exists()
             if check_exist:
                 result = StaffPoint.objects.get(position_id=position_obj, staff_id=staff_obj)
-                result.position_assignment_marks = assignment_marks
-                result.position_exam_marks = exam_marks
+                result.position_bonus_point = bonus
+                result.position_incentive_point = incentive
                 result.save()
                 messages.success(request, "Points Updated Successfully!")
-                return redirect('manager_add_result')
             else:
-                result = StaffPoint(staff_id=staff_obj, position_id=position_obj, position_exam_marks=exam_marks, position_assignment_marks=assignment_marks)
+                result = StaffPoint(staff_id=staff_obj, position_id=position_obj, position_incentive_point=incentive,
+                                    position_bonus_point=bonus)
                 result.save()
                 messages.success(request, "Points Added Successfully!")
-                return redirect('manager_add_result')
-        except:
-            messages.error(request, "Failed to Add Result!")
-            return redirect('manager_add_result')
+        except ObjectDoesNotExist:
+            messages.error(request, "Staff or Position does not exist.")
+        except Exception as e:
+            messages.error(request, f"Failed to Add Bonus/Incentive: {str(e)}")
+
+        return redirect('manager_add_result')

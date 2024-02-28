@@ -1,7 +1,7 @@
 {% extends 'manager_template/base_template.html' %}
 
 {% block page_title %}
-    Add Result
+    Add Bonus/Incentive
 {% endblock page_title %}
 
 {% block main_content %}
@@ -18,7 +18,7 @@
                     {% csrf_token %}
                     <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Add Result</h3>
+                        <h3 class="card-title">Add Bonus/Incentive</h3>
                     </div>
                     <!-- /.card-header -->
 
@@ -127,17 +127,17 @@
                 div_data+="<div class='form-group'><div class='row'>";
 
                 div_data+="<div class='col-lg-6'>";
-                div_data+="<label>Assignment Marks : </label><input type='text'name='assignment_marks' class='form-control' placeholder='Assignment Marks' />";
+                div_data+="<label>Bonus : </label><input type='text' name='bonus' class='form-control' placeholder='Bonus' />";
                 div_data+="</div>";
 
                 div_data+="<div class='col-lg-6'>";
-                div_data+="<label>Exam Marks : </label><input type='text'name='exam_marks' class='form-control' placeholder='Exam Marks' />";
+                div_data+="<label>Incentive : </label><input type='text' name='incentive' class='form-control' placeholder='Incentive' />";
                 div_data+="</div>";
 
                 div_data+="</div></div>";
 
                 div_data+="<div class='form-group'>";
-                div_data+="<button id='save_attendance' class='btn btn-success' type='submit'>Save Result</button>";
+                div_data+="<button id='save_attendance' class='btn btn-success' type='submit'>Confirm</button>";
                 div_data+="</div>";
                 $("#staff_data").html(div_data);
 

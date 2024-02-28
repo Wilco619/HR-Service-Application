@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib import messages
-from django.core.files.storage import FileSystemStorage #To upload Profile Picture
+from django.core.files.storage import FileSystemStorage  # To upload Profile Picture
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
@@ -9,9 +9,10 @@ from django.db import IntegrityError
 
 import json
 
-from Hrmanagement_app.models import CustomUser, Manager, Department, Position, Staff, ContractYearModel, FeedBackStaff, FeedBackManager, LeaveReportStaff, LeaveReportManager, Attendance, AttendanceReport
+from Hrmanagement_app.models import CustomUser, Manager, Department, Position, Staff, ContractYearModel, FeedBackStaff, \
+    FeedBackManager, LeaveReportStaff, LeaveReportManager, Attendance, AttendanceReport
 from .forms import AddStaffForm, EditStaffForm
-    
+
 
 def admin_home(request):
     all_staff_count = Staff.objects.all().count()
@@ -31,7 +32,7 @@ def admin_home(request):
         department_name_list.append(department.department_name)
         position_count_list.append(positions)
         staff_count_list_in_department.append(staffs)
-    
+
     position_all = Position.objects.all()
     position_list = []
     staff_count_list_in_position = []
@@ -40,11 +41,11 @@ def admin_home(request):
         staff_count = Staff.objects.filter(department_id=department.id).count()
         position_list.append(position.position_name)
         staff_count_list_in_position.append(staff_count)
-    
+
     # For Saffs
-    manager_attendance_present_list=[]
-    manager_attendance_leave_list=[]
-    manager_name_list=[]
+    manager_attendance_present_list = []
+    manager_attendance_leave_list = []
+    manager_name_list = []
 
     managers = Manager.objects.all()
     for manager in managers:
@@ -56,9 +57,9 @@ def admin_home(request):
         manager_name_list.append(manager.admin.first_name)
 
     # For Staff
-    staff_attendance_present_list=[]
-    staff_attendance_leave_list=[]
-    staff_name_list=[]
+    staff_attendance_present_list = []
+    staff_attendance_leave_list = []
+    staff_name_list = []
 
     staffs = Staff.objects.all()
     for staff in staffs:
@@ -66,11 +67,10 @@ def admin_home(request):
         absent = AttendanceReport.objects.filter(staff_id=staff.id, status=False).count()
         leaves = LeaveReportStaff.objects.filter(staff_id=staff.id, leave_status=1).count()
         staff_attendance_present_list.append(attendance)
-        staff_attendance_leave_list.append(leaves+absent)
+        staff_attendance_leave_list.append(leaves + absent)
         staff_name_list.append(staff.admin.first_name)
 
-
-    context={
+    context = {
         "all_staff_count": all_staff_count,
         "position_count": position_count,
         "department_count": department_count,
@@ -93,6 +93,7 @@ def admin_home(request):
 def add_manager(request):
     return render(request, "hod_template/add_manager_template.html")
 
+
 def add_manager_save(request):
     if request.method != "POST":
         messages.error(request, "Invalid Method ")
@@ -107,7 +108,8 @@ def add_manager_save(request):
 
         try:
             # Creating a new user with the CustomUser model
-            user = CustomUser.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name, user_type=2)
+            user = CustomUser.objects.create_user(username=username, password=password, email=email,
+                                                  first_name=first_name, last_name=last_name, user_type=2)
 
             # Adding address to the Manager model associated with the user
             user.manager.address = address
@@ -119,12 +121,14 @@ def add_manager_save(request):
             messages.error(request, f"Failed to Add Manager. {e}")
             return redirect('add_manager')
 
+
 def manage_manager(request):
     managers = Manager.objects.all()
     context = {
         "managers": managers
     }
     return render(request, "hod_template/manage_manager_template.html", context)
+
 
 def edit_manager(request, manager_id):
     manager = Manager.objects.get(admin=manager_id)
@@ -134,6 +138,7 @@ def edit_manager(request, manager_id):
         "id": manager_id
     }
     return render(request, "hod_template/edit_manager_template.html", context)
+
 
 def edit_manager_save(request):
     if request.method != "POST":
@@ -170,6 +175,7 @@ def edit_manager_save(request):
             messages.error(request, f"Failed to Update Manager. {e}")
             return redirect(reverse('edit_manager', args=[manager_id]))
 
+
 def delete_manager(request, manager_id):
     try:
         manager = Manager.objects.get(admin=manager_id)
@@ -181,7 +187,6 @@ def delete_manager(request, manager_id):
         messages.error(request, f"Failed to Delete Manager. {e}")
 
     return redirect('manage_manager')
-
 
 
 def add_department(request):
@@ -234,11 +239,11 @@ def edit_department_save(request):
             department.save()
 
             messages.success(request, "Department Updated Successfully.")
-            return redirect('/edit_department/'+department_id)
+            return redirect('/edit_department/' + department_id)
 
         except:
             messages.error(request, "Failed to Update Department.")
-            return redirect('/edit_department/'+department_id)
+            return redirect('/edit_department/' + department_id)
 
 
 def delete_department(request, department_id):
@@ -273,7 +278,8 @@ def add_contract_save(request):
         contract_end_year = request.POST.get('contract_end_year')
 
         try:
-            contractyear = ContractYearModel(contract_start_year=contract_start_year, contract_end_year=contract_end_year)
+            contractyear = ContractYearModel(contract_start_year=contract_start_year,
+                                             contract_end_year=contract_end_year)
             contractyear.save()
             messages.success(request, "Contract Year added Successfully!")
             return redirect("add_contract")
@@ -306,10 +312,10 @@ def edit_contract_save(request):
             contract_year.save()
 
             messages.success(request, "Contract Year Updated Successfully.")
-            return redirect('/edit_contract/'+contract_id)
+            return redirect('/edit_contract/' + contract_id)
         except:
             messages.error(request, "Failed to Update Contract Year.")
-            return redirect('/edit_contract/'+contract_id)
+            return redirect('/edit_contract/' + contract_id)
 
 
 def delete_contract(request, contract_id):
@@ -322,10 +328,12 @@ def delete_contract(request, contract_id):
         messages.error(request, "Failed to Delete Contract.")
         return redirect('manage_contract')
 
+
 def add_staff(request):
     form = AddStaffForm()
     context = {"form": form}
     return render(request, 'hod_template/add_staff_template.html', context)
+
 
 def add_staff_save(request):
     if request.method != "POST":
@@ -481,12 +489,12 @@ def edit_staff_save(request):
                 del request.contract['staff_id']
 
                 messages.success(request, "Manager Updated Successfully!")
-                return redirect('/edit_staff/'+staff_id)
+                return redirect('/edit_staff/' + staff_id)
             except:
                 messages.success(request, "Failed to Update Manager.")
-                return redirect('/edit_staff/'+staff_id)
+                return redirect('/edit_staff/' + staff_id)
         else:
-            return redirect('/edit_staff/'+staff_id)
+            return redirect('/edit_staff/' + staff_id)
 
 
 def delete_staff(request, staff_id):
@@ -510,7 +518,6 @@ def add_position(request):
     return render(request, 'hod_template/add_position_template.html', context)
 
 
-
 def add_position_save(request):
     if request.method != "POST":
         messages.error(request, "Method Not Allowed!")
@@ -520,7 +527,7 @@ def add_position_save(request):
 
         department_id = request.POST.get('department')
         department = Department.objects.get(id=department_id)
-        
+
         manager_id = request.POST.get('manager')
         manager = CustomUser.objects.get(id=manager_id)
 
@@ -573,18 +580,17 @@ def edit_position_save(request):
 
             manager = CustomUser.objects.get(id=manager_id)
             position.manager_id = manager
-            
+
             position.save()
 
             messages.success(request, "Position Updated Successfully.")
             # return redirect('/edit_position/'+position_id)
-            return HttpResponseRedirect(reverse("edit_position", kwargs={"position_id":position_id}))
+            return HttpResponseRedirect(reverse("edit_position", kwargs={"position_id": position_id}))
 
         except:
             messages.error(request, "Failed to Update Position.")
-            return HttpResponseRedirect(reverse("edit_position", kwargs={"position_id":position_id}))
+            return HttpResponseRedirect(reverse("edit_position", kwargs={"position_id": position_id}))
             # return redirect('/edit_position/'+position_id)
-
 
 
 def delete_position(request, position_id):
@@ -616,7 +622,6 @@ def check_username_exist(request):
         return HttpResponse(True)
     else:
         return HttpResponse(False)
-
 
 
 def staff_feedback_message(request):
@@ -671,6 +676,7 @@ def staff_leave_view(request):
         "leaves": leaves
     }
     return render(request, 'hod_template/staff_leave_view.html', context)
+
 
 def staff_leave_approve(request, leave_id):
     leave = LeaveReportStaff.objects.get(id=leave_id)
@@ -737,7 +743,8 @@ def admin_get_attendance_dates(request):
     list_data = []
 
     for attendance_single in attendance:
-        data_small={"id":attendance_single.id, "attendance_date":str(attendance_single.attendance_date), "contract_year_id":attendance_single.contract_year_id.id}
+        data_small = {"id": attendance_single.id, "attendance_date": str(attendance_single.attendance_date),
+                      "contract_year_id": attendance_single.contract_year_id.id}
         list_data.append(data_small)
 
     return JsonResponse(json.dumps(list_data), content_type="application/json", safe=False)
@@ -754,7 +761,9 @@ def admin_get_attendance_staff(request):
     list_data = []
 
     for staff in attendance_data:
-        data_small={"id":staff.staff_id.admin.id, "name":staff.staff_id.admin.first_name+" "+staff.staff_id.admin.last_name, "status":staff.status}
+        data_small = {"id": staff.staff_id.admin.id,
+                      "name": staff.staff_id.admin.first_name + " " + staff.staff_id.admin.last_name,
+                      "status": staff.status}
         list_data.append(data_small)
 
     return JsonResponse(json.dumps(list_data), content_type="application/json", safe=False)
@@ -763,7 +772,7 @@ def admin_get_attendance_staff(request):
 def admin_profile(request):
     user = CustomUser.objects.get(id=request.user.id)
 
-    context={
+    context = {
         "user": user
     }
     return render(request, 'hod_template/admin_profile.html', context)
@@ -790,15 +799,11 @@ def admin_profile_update(request):
         except:
             messages.error(request, "Failed to Update Profile")
             return redirect('admin_profile')
-    
 
 
 def manager_profile(request):
     pass
 
 
-def staff_profile(requtest):
+def staff_profile(request):
     pass
-
-
-

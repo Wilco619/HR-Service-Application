@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, AdminHR, Manager, Department, Position, Staff, Attendance, AttendanceReport, LeaveReportStaff, LeaveReportManager, FeedBackStaff, FeedBackManager, NotificationStaff, NotificationManager
+from .models import CustomUser, AdminHR, Manager, Department, Position, Staff, Attendance, AttendanceReport, \
+    LeaveReportStaff, LeaveReportManager, FeedBackStaff, FeedBackManager, NotificationStaff, NotificationManager
+
 
 # Register your models here.
 class UserModel(UserAdmin):
