@@ -15,11 +15,11 @@
             <div class="row">
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-info">
-                    <div class="inner">
-                        <h3>{{ total_attendance }}</h3>
+                    <div class="small-box" id="linka">
+                    <div class="col-lg-3 stats">
+                        <h3 class="counting" data-count="{{ total_attendance }}">0</h3>
 
-                        <p>Total Attendance</p>
+                        <p>Attendance</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
@@ -30,9 +30,9 @@
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3>{{ attendance_absent }}</h3>
+                    <div class="small-box" id="linka">
+                    <div class="col-lg-3 stats">
+                        <h3 class="counting" data-count="{{ attendance_absent }}">0</h3>
 
                         <p>Absent</p>
                     </div>
@@ -45,9 +45,9 @@
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3>{{ attendance_present }}</h3>
+                    <div class="small-box" id="linka">
+                    <div class="col-lg-3 stats">
+                        <h3 data-count="{{ attendance_present }}">0</h3>
 
                         <p>Present</p>
                     </div>
@@ -60,14 +60,15 @@
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-danger">
-                    <div class="inner">
-                        <h3>{{ total_positions }}</h3>
+                    <div class="small-box" id="linka">
+                    <div class="col-lg-3 stats">
+                        <h3 class="counting" data-count="{{ total_positions }}">0</h3>
 
-                        <p>Total Positions</p>
+                        <p>Positions</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
+                        <i class="fa-solid fas fa-file-signature"></i>
+
                     </div>
                     <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
@@ -79,17 +80,11 @@
             <div class="row">
                 <div class="col-lg-6">
                     <!-- PIE CHART -->
-                    <div class="card card-danger">
-                    <div class="card-header">
+                    <div class="card">
+
+                    <div class="card-body">
                         <h3 class="card-title">Total Attendance Chart</h3>
 
-                        <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                        </div>
-                    </div>
-                    <div class="card-body">
                         <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                     </div>
                     <!-- /.card-body -->
@@ -99,18 +94,12 @@
 
                 <div class="col-lg-6">
                     <!-- BAR CHART -->
-                    <div class="card card-success">
-                    <div class="card-header">
-                        <h3 class="card-title">Attendance Statistics by Positions</h3>
+                    <div class="card">
 
-                        <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                        </div>
-                    </div>
                     <div class="card-body">
                         <div class="chart">
+                        <h3 class="card-title">Attendance Statistics by Positions</h3>
+
                         <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                         </div>
                     </div>
