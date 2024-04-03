@@ -1,8 +1,12 @@
-from django.shortcuts import render, redirect
+import os
+import uuid
+
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage  # To upload Profile Picture
 from django.urls import reverse
+from django.utils.crypto import get_random_string
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from django.db import IntegrityError
@@ -10,8 +14,8 @@ from django.db import IntegrityError
 import json
 
 from Hrmanagement_app.models import CustomUser, Manager, Department, Position, Staff, ContractYearModel, FeedBackStaff, \
-    FeedBackManager, LeaveReportStaff, LeaveReportManager, Attendance, AttendanceReport
-from .forms import AddStaffForm, EditStaffForm
+    FeedBackManager, LeaveReportStaff, LeaveReportManager, Attendance, AttendanceReport, Contracts
+from .forms import AddStaffForm, EditStaffForm, StaffContractForm
 
 
 def admin_home(request):
@@ -402,6 +406,14 @@ def manage_staff(request):
     return render(request, 'hod_template/manage_staff_template.html', context)
 
 
+def staff_contract(request):
+    staffs = Staff.objects.all()
+    context = {
+        "staffs": staffs
+    }
+    return render(request, 'hod_template/contract.html', context)
+
+
 def edit_staff(request, staff_id):
     # Adding Staff ID into Contract Variable
     request.session['staff_id'] = staff_id
@@ -486,7 +498,7 @@ def edit_staff_save(request):
                     staff_model.profile_pic = profile_pic_url
                 staff_model.save()
                 # Delete staff_id SESSION after the data is updated
-                del request.contract['staff_id']
+                del request.session['staff_id']
 
                 messages.success(request, "Manager Updated Successfully!")
                 return redirect('/edit_staff/' + staff_id)
@@ -495,6 +507,74 @@ def edit_staff_save(request):
                 return redirect('/edit_staff/' + staff_id)
         else:
             return redirect('/edit_staff/' + staff_id)
+
+
+def staff_contract_upload(request, staff_id):
+    staff = get_object_or_404(Staff, pk=staff_id)
+    request.session['staff_id'] = staff.id
+    # Render a template or redirect to the contract upload view
+    return render(request, 'hod_template/contract_upload.html', {'staff': staff})
+
+
+def staff_contract_save(request):
+    if request.method != "POST":
+        return HttpResponse("Invalid Method!")
+
+    staff_id = request.session.get('staff_id')
+    if staff_id is None:
+        return redirect('/staff_contract')
+
+    form = StaffContractForm(request.POST, request.FILES)
+    if form.is_valid():
+        pdf_file = form.cleaned_data['pdf_file']
+        if pdf_file:
+            # fs = FileSystemStorage()
+            # ext = os.path.splitext(pdf_file.name)[1]  # Get the file extension
+            # filename = f"{uuid.uuid4().hex}{ext}"  # Generate a unique file name
+            # filename = fs.save(filename, pdf_file)
+            # pdf_file_url = fs.url(filename)
+            fs = FileSystemStorage()
+            filename = fs.save(pdf_file.name, pdf_file)
+            pdf_file_url = fs.url(filename)
+        else:
+            pdf_file_url = None
+
+        try:
+            staff = Staff.objects.get(pk=staff_id)
+        except Staff.DoesNotExist:
+            messages.error(request, "Failed to Upload Contract: Staff not found.")
+
+            return redirect('/staff_contract/')
+
+        contract, created = Contracts.objects.get_or_create(staff_id=staff)
+        if pdf_file_url is not None:
+            # if contract.pdf_file:
+            #     # Remove the existing PDF file
+            #     contract.pdf_file.delete()
+            contract.pdf_file = pdf_file_url
+            contract.save()
+
+            del request.session['staff_id']
+            messages.success(request, "Contract Uploaded Successfully!")
+            return redirect('/staff_contract/')
+        else:
+            messages.error(request, "No File Selected!")
+            return redirect('/staff_contract_upload/' + str(staff_id))
+
+    else:
+        messages.error(request, "File is not valid.")
+        return redirect('/staff_contract_upload/' + str(staff_id))
+
+    # return render(request, 'hod_template/contract.html', {'form': form})
+
+
+def staff_contract_view(request, staff_id):
+    staff = get_object_or_404(Contracts, pk=staff_id)
+    staff_view = Contracts.objects.filter(staff_id=staff)
+    context = {
+        "staff_view": staff_view
+    }
+    return render(request, 'hod_template/contract_upload.html', context)
 
 
 def delete_staff(request, staff_id):

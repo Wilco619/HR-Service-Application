@@ -1,7 +1,11 @@
+import os
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+from HRmanagement_system import settings
 
 
 class ContractYearModel(models.Model):
@@ -42,6 +46,8 @@ class Department(models.Model):
     objects = models.Manager()
 
     # def __str__(self):
+
+
 #     return self.department_name
 
 
@@ -161,6 +167,52 @@ class StaffPoint(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
+
+
+class Contracts(models.Model):
+    id = models.AutoField(primary_key=True)
+    staff_id = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    pdf_file = models.FileField(upload_to='media/', default=None)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects = models.Manager()
+
+    @property
+    def pdf_file_url(self):
+        if self.pdf_file and hasattr(self.pdf_file, 'url'):
+            return os.path.join(settings.MEDIA_URL, self.pdf_file.name.replace('media/', ''))
+        else:
+            return None
+
+
+# payroll details
+class Salary(models.Model):
+    id = models.AutoField(primary_key=True)
+    staff_id = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    date = models.DateField()
+
+
+class Allowance(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+
+class Deduction(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+
+class Payroll(models.Model):
+    id = models.AutoField(primary_key=True)
+    staff_id = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    salary = models.OneToOneField(Salary, on_delete=models.CASCADE)
+    allowances = models.ManyToManyField(Allowance, blank=True)
+    deductions = models.ManyToManyField(Deduction, blank=True)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_date = models.DateField()
 
 
 # Creating Django Signals

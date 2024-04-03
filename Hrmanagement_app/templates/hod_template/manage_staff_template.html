@@ -56,27 +56,26 @@
                     <!-- /.card-header -->
                     <div class="card-body table-responsive p-0" id="grid-container">
                         {% for staff in staffs %}
-                            <div class="grid-container">
-                                <div class="card-container">
-                                    <div class="card">
-                                        <div class="user-image">
-                                            <img src="{{ staff.profile_pic }}" style="width: 90px; height: 90px; border-radius: 50px; background-image: url('/static/dist/img/user-solid.svg');" />
-                                            <div class="user-details"> 
-                                                <h6><b>{{ staff.admin.first_name | capfirst }} {{ staff.admin.last_name | capfirst }}</b></h6> 
-                                                <h6>National_ID: <b>{{ staff.i_d }}</b></h6>
-                                                <h6>Phone: <b>{{ staff.phone }}</b></h6>
-                                            </div>
+
+                            <div class="card-container">
+                                <div class="card">
+                                    <div class="user-image">
+                                        <img src="{{ staff.profile_pic }}" style="width: 90px; height: 90px; border-radius: 50px; background-image: url('/static/dist/img/user-solid.svg');" />
+                                        <div class="user-details">
+                                            <h6><b>{{ staff.admin.first_name | capfirst }} {{ staff.admin.last_name | capfirst }}</b></h6>
+                                            <h6>National_ID: <b>{{ staff.i_d }}</b></h6>
+                                            <h6>Phone: <b>{{ staff.phone }}</b></h6>
                                         </div>
-                                        <div class="container">
-                                            
-                                            
-                                            <h6>Department: <b>{{ staff.department_id.department_name | capfirst }}</b></h6>
-                                            <h6>Last login: <b>{{ staff.admin.last_login }}</b></h6> 
-                                            
-                                            <a href="#"><button style="font-size: 12px;" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#memberDetailsModal{{ staff.admin.id }}">Details</button></a>
-                                            <a href="{% url 'edit_staff' staff.admin.id %}" style="font-size: 12px;" class="btn btn-outline-success">Edit</a> 
-                                            <a href="#"><button style="font-size: 12px;" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#memberDeleteModal{{ staff.admin.id }}">Delete</button></a>
-                                        </div>
+                                    </div>
+                                    <div class="container">
+
+
+                                        <h6>Department: <b>{{ staff.department_id.department_name | capfirst }}</b></h6>
+                                        <h6>Last login: <b>{{ staff.admin.last_login }}</b></h6>
+
+                                        <a href="#"><button style="font-size: 12px;" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#memberDetailsModal{{ staff.admin.id }}">Details</button></a>
+                                        <a href="{% url 'edit_staff' staff.admin.id %}" style="font-size: 12px;" class="btn btn-outline-success">Edit</a>
+                                        <a href="#"><button style="font-size: 12px;" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#memberDeleteModal{{ staff.admin.id }}">Delete</button></a>
                                     </div>
                                 </div>
                             </div>

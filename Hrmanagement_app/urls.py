@@ -59,6 +59,9 @@ urlpatterns = [
     path('staff_leave_view/', HrViews.staff_leave_view, name="staff_leave_view"),
     path('staff_leave_approve/<leave_id>/', HrViews.staff_leave_approve, name="staff_leave_approve"),
     path('staff_leave_reject/<leave_id>/', HrViews.staff_leave_reject, name="staff_leave_reject"),
+    path('staff_contract/', HrViews.staff_contract, name="staff_contract"),
+    path('staff_contract_upload/<int:staff_id>/', HrViews.staff_contract_upload, name="staff_contract_upload"),
+    path('staff_contract_save/', HrViews.staff_contract_save, name="staff_contract_save"),
 
     path('manager_leave_view/', HrViews.manager_leave_view, name="manager_leave_view"),
     path('manager_leave_approve/<leave_id>/', HrViews.manager_leave_approve, name="manager_leave_approve"),
@@ -103,4 +106,5 @@ urlpatterns = [
     path('staff_profile/', StaffViews.staff_profile, name="staff_profile"),
     path('staff_profile_update/', StaffViews.staff_profile_update, name="staff_profile_update"),
     path('staff_view_result/', StaffViews.staff_view_result, name="staff_view_result"),
+    path('view_staff_contract/', StaffViews.view_staff_contract, name="view_staff_contract"),
 ]

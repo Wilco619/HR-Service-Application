@@ -1,5 +1,4 @@
 from django import forms
-from django.forms import Form
 from django.core.exceptions import ObjectDoesNotExist
 from Hrmanagement_app.models import Department, ContractYearModel
 
@@ -94,3 +93,14 @@ class EditStaffForm(forms.Form):
                                widget=forms.Select(attrs={"class": "form-control"}))
     profile_pic = forms.FileField(label="Profile Pic", required=False,
                                   widget=forms.FileInput(attrs={"class": "form-control"}))
+
+
+class StaffContractForm(forms.Form):
+    pdf_file = forms.FileField(label="pdf_file", widget=forms.ClearableFileInput(attrs={"class": "form-control", "multiple": True}), required=False)
+
+    def clean_pdf_file(self):
+        pdf_file = self.cleaned_data.get('pdf_file')
+        if pdf_file:
+            if not pdf_file.name.endswith('.pdf'):
+                raise forms.ValidationError('File is not a PDF')
+        return pdf_file

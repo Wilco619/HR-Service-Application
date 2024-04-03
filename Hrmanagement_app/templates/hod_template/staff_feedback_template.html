@@ -29,8 +29,9 @@
                                     <th>Staff Name</th>
                                     <th>Staff Contract</th>
                                     <th>Message</th>
-                                    <th>Sended On</th>
+                                    <th>Sent On</th>
                                     <th>Reply</th>
+                                    <th>Write Message</th>
                                 </tr>
                                 </thead>
 
@@ -49,10 +50,46 @@
                                         {% else %}
                                             {{ feedback.feedback_reply }}
                                         {% endif %}
-                                        
+
                                     </td>
+                                    <td><a href="#"><button style="font-size: 12px;" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#memberMessageModal{{ staff.admin.id }}">Write Message</button></a></td>
+
+
                                 </tr>
                                 </tbody>
+
+                                <div class="modal fade" id="memberMessageModal{{ staff.admin.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel{{ staff.admin.id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="staticBackdropLabel{{ staff.admin.id }}">Upload Contract</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="popup-layer">
+                                                    <div class="popup-card">
+                                                        <div class="popup-content">
+                                                            <img src="{{ staff.profile_pic }}" style="width: 40px; height: 40px; border-radius: 50px; background-image: url('/static/dist/img/user-solid.svg');" />
+                                                            <p><b>Name: </b>{{ staff.admin.first_name | capfirst }} {{ staff.admin.last_name | capfirst }}</p>
+
+                                                            <form role="form" action="{% url 'staff_contract_save' %}" method="POST" enctype="multipart/form-data">
+                                                              {% csrf_token %}
+                                                              <label for="pdf_file">Select files:</label>
+                                                              <textarea id="pdf_file" name="pdf_file" rows="4" cols="50"></textarea><br><br>
+                                                              <input type="submit">
+                                                            </form>
+                                                            <!-- Display other details here as needed -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 {% endfor %}
 
                             </table>

@@ -31,7 +31,7 @@
               <a href="{{ admin_home }}" class="nav-link {% if request.path == admin_home %} active {% endif %}">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
-                  Home
+                  Dashboard
                 </p>
               </a>
             </li>
@@ -148,7 +148,7 @@
 
             <li class="nav-item">
               {% url 'manager_leave_view' as manager_leave_view %}
-              <a href="https://forms.gle/WEtGLyWDhU8pMkyL9" target="_blank">
+              <a href="https://forms.gle/WEtGLyWDhU8pMkyL9" class="nav-link" target="_blank">
                 <i class="nav-icon fas fa-envelope-open-text"></i>
                 <p>
                   Apply Job
@@ -158,10 +158,21 @@
 
             <li class="nav-item">
               {% url 'manager_leave_view' as manager_leave_view %}
-              <a href="https://docs.google.com/spreadsheets/d/1dMd3Xxu2VDW6bARgw2Oo7TFb3bRTUNa5V7ePaQGzM18/edit?usp=sharing" target="_blank">
+              <a href="https://docs.google.com/spreadsheets/d/1dMd3Xxu2VDW6bARgw2Oo7TFb3bRTUNa5V7ePaQGzM18/edit?usp=sharing" class="nav-link" target="_blank">
                 <i class="nav-icon fas fa-envelope-open-text"></i>
                 <p>
                   Apply Job Responses
+                </p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              {% url 'staff_contract' as  staff_contract %}
+              {% url 'edit_staff' staff_id=id as edit_staff %}
+              <a href="{{ staff_contract }}" class="nav-link {% if request.path == staff_contract %} active {% endif %} {% if request.path == edit_staff %} active {% endif %}">
+                <i class="nav-icon fas fa-envelope-open-text"></i>
+                <p>
+                  Contracts
                 </p>
               </a>
             </li>

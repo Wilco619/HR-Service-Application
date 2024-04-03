@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
-from django.core.files.storage import FileSystemStorage #To upload Profile Picture
+from django.core.files.storage import FileSystemStorage  # To upload Profile Picture
 from django.urls import reverse
-import datetime # To Parse input DateTime into Python Date Time Object
+import datetime  # To Parse input DateTime into Python Date Time Object
 
-from Hrmanagement_app.models import CustomUser, Staff, Department, Position, Staff, Attendance, AttendanceReport, LeaveReportStaff, FeedBackStaff, StaffPoint
+from Hrmanagement_app.models import CustomUser, Staff, Department, Position, Staff, Attendance, AttendanceReport, \
+    LeaveReportStaff, FeedBackStaff, StaffPoint, Contracts
 
 
 def staff_home(request):
@@ -23,13 +24,15 @@ def staff_home(request):
     position_data = Position.objects.filter(department_id=staff_obj.department_id)
     for position in position_data:
         attendance = Attendance.objects.filter(position_id=position.id)
-        attendance_present_count = AttendanceReport.objects.filter(attendance_id__in=attendance, status=True, staff_id=staff_obj.id).count()
-        attendance_absent_count = AttendanceReport.objects.filter(attendance_id__in=attendance, status=False, staff_id=staff_obj.id).count()
+        attendance_present_count = AttendanceReport.objects.filter(attendance_id__in=attendance, status=True,
+                                                                   staff_id=staff_obj.id).count()
+        attendance_absent_count = AttendanceReport.objects.filter(attendance_id__in=attendance, status=False,
+                                                                  staff_id=staff_obj.id).count()
         position_name.append(position.position_name)
         data_present.append(attendance_present_count)
         data_absent.append(attendance_absent_count)
-    
-    context={
+
+    context = {
         "total_attendance": total_attendance,
         "attendance_present": attendance_present,
         "attendance_absent": attendance_absent,
@@ -42,10 +45,10 @@ def staff_home(request):
 
 
 def staff_view_attendance(request):
-    staff = Staff.objects.get(admin=request.user.id) # Getting Logged in Staff Data
-    department = staff.department_id # Getting Department Enrolled of LoggedIn Staff
+    staff = Staff.objects.get(admin=request.user.id)  # Getting Logged in Staff Data
+    department = staff.department_id  # Getting Department Enrolled of LoggedIn Staff
     # department = Department.objects.get(id=staff.department_id.id) # Getting Department Enrolled of LoggedIn Staff
-    positions = Position.objects.filter(department_id=department) # Getting the Positions of Department Enrolled
+    positions = Position.objects.filter(department_id=department)  # Getting the Positions of Department Enrolled
     context = {
         "positions": positions
     }
@@ -74,7 +77,8 @@ def staff_view_attendance_post(request):
         stuf_obj = Staff.objects.get(admin=user_obj)
 
         # Now Accessing Attendance Data based on the Range of Date Selected and Position Selected
-        attendance = Attendance.objects.filter(attendance_date__range=(start_date_parse, end_date_parse), position_id=position_obj)
+        attendance = Attendance.objects.filter(attendance_date__range=(start_date_parse, end_date_parse),
+                                               position_id=position_obj)
         # Getting Attendance Report based on the attendance details obtained above
         attendance_reports = AttendanceReport.objects.filter(attendance_id__in=attendance, staff_id=stuf_obj)
 
@@ -89,7 +93,7 @@ def staff_view_attendance_post(request):
         }
 
         return render(request, 'staff_template/staff_attendance_data.html', context)
-       
+
 
 def staff_apply_leave(request):
     staff_obj = Staff.objects.get(admin=request.user.id)
@@ -110,7 +114,8 @@ def staff_apply_leave_save(request):
 
         staff_obj = Staff.objects.get(admin=request.user.id)
         try:
-            leave_report = LeaveReportStaff(staff_id=staff_obj, leave_date=leave_date, leave_message=leave_message, leave_status=0)
+            leave_report = LeaveReportStaff(staff_id=staff_obj, leave_date=leave_date, leave_message=leave_message,
+                                            leave_status=0)
             leave_report.save()
             messages.success(request, "Applied for Leave.")
             return redirect('staff_apply_leave')
@@ -150,7 +155,7 @@ def staff_profile(request):
     user = CustomUser.objects.get(id=request.user.id)
     staff = Staff.objects.get(admin=user)
 
-    context={
+    context = {
         "user": user,
         "staff": staff
     }
@@ -178,7 +183,7 @@ def staff_profile_update(request):
             staff = Staff.objects.get(admin=customuser.id)
             staff.address = address
             staff.save()
-            
+
             messages.success(request, "Profile Updated Successfully")
             return redirect('staff_profile')
         except:
@@ -195,6 +200,10 @@ def staff_view_result(request):
     return render(request, "staff_template/staff_view_result.html", context)
 
 
-
-
-
+def view_staff_contract(request):
+    view_contract = Staff.objects.get(admin=request.user.id)
+    the_contract = Contracts.objects.filter(staff_id=view_contract.id)
+    context = {
+        "the_contract": the_contract,
+    }
+    return render(request, "staff_template/contract_view.html", context)

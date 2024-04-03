@@ -57,22 +57,41 @@
                             {% for attendance_report in attendance_reports %}
                                 {% if attendance_report.status == True %}
 
-                                        <div class="col-lg-3 attendance_div_green">
-                                            <b>Date : {{ attendance_report.attendance_id.attendance_date }}</b> <br/>
-                                            
-                                                <b>[ Status : Present ]</b>
-                                            
-                                        </div>
+                                        <table class="table-responsive">
+                                            <thead>
+                                            <tr>
+                                                <th>Date:</th>
+                                                <th>Status:</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>{{ attendance_report.attendance_id.attendance_date }}</td>
+                                                <td class="primary">[ Present ]</td>
+                                            </tr>
+                                            </tbody>
+
+                                        </table>
                                     
 
                                 {% else %}
 
-                                        <div class="col-lg-3 attendance_div_red">
-                                            <b>Date : {{ attendance_report.attendance_id.attendance_date }}</b> <br/>
-                                            
-                                                <b>[ Status : Absent ]</b>
-                                            
-                                        </div>
+                                        <table class="table-responsive">
+                                            <thead>
+                                            <tr>
+                                                <th>Date:</th>
+                                                <th>Status:</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>{{ attendance_report.attendance_id.attendance_date }}</td>
+                                                <td class="primary">[ Absent ]</td>
+                                            </tr>
+                                            </tbody>
+
+                                        </table>
+
 
                                 {% endif %}
                             {% endfor %}
