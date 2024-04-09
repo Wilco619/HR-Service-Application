@@ -1,6 +1,7 @@
 import os
 import uuid
 
+from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib import messages
@@ -14,8 +15,8 @@ from django.db import IntegrityError
 import json
 
 from Hrmanagement_app.models import CustomUser, Manager, Department, Position, Staff, ContractYearModel, FeedBackStaff, \
-    FeedBackManager, LeaveReportStaff, LeaveReportManager, Attendance, AttendanceReport, Contracts
-from .forms import AddStaffForm, EditStaffForm, StaffContractForm
+    FeedBackManager, LeaveReportStaff, LeaveReportManager, Attendance, AttendanceReport, Contracts, Policies
+from .forms import AddStaffForm, EditStaffForm, StaffContractForm, PolicyForm
 
 
 def admin_home(request):
@@ -96,6 +97,34 @@ def admin_home(request):
 
 def add_manager(request):
     return render(request, "hod_template/add_manager_template.html")
+
+
+def policies(request):
+    return render(request, "hod_template/Policies.html")
+
+
+def validate_file_extension(value):
+    ext = os.path.splitext(value.name)[1]  # Get the file extension
+    valid_extensions = ['.pdf']  # List of valid extensions
+    if not ext.lower() in valid_extensions:
+        raise ValidationError('Only PDF files are allowed.')
+
+
+def upload_policy(request):
+    if request.method == 'POST':
+        form = PolicyForm(request.POST, request.FILES)
+        if form.is_valid():
+            policy_name = form.cleaned_data['policy_name']
+            policy_document = request.FILES['policy_document']
+            try:
+                policy = Policies(policy_name=policy_name, policy_document=policy_document)
+                policy.save()
+                messages.success(request, "Policy Uploaded successfully")
+            except ValidationError as e:
+                messages.error(request, e.messages)
+    else:
+        form = PolicyForm()
+    return render(request, 'hod_template/Policies.html', {'form': form})
 
 
 def add_manager_save(request):

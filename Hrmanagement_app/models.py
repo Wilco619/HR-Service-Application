@@ -5,6 +5,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+
 from HRmanagement_system import settings
 
 
@@ -102,6 +103,7 @@ class LeaveReportStaff(models.Model):
     id = models.AutoField(primary_key=True)
     staff_id = models.ForeignKey(Staff, on_delete=models.CASCADE)
     leave_date = models.CharField(max_length=255)
+    return_date = models.CharField(max_length=255, default=None)
     leave_message = models.TextField()
     leave_status = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -113,6 +115,7 @@ class LeaveReportManager(models.Model):
     id = models.AutoField(primary_key=True)
     manager_id = models.ForeignKey(Manager, on_delete=models.CASCADE)
     leave_date = models.CharField(max_length=255)
+    return_date = models.CharField(max_length=255, default=None)
     leave_message = models.TextField()
     leave_status = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -177,43 +180,39 @@ class Contracts(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
 
-    @property
-    def pdf_file_url(self):
-        if self.pdf_file and hasattr(self.pdf_file, 'url'):
-            return os.path.join(settings.MEDIA_URL, self.pdf_file.name.replace('media/', ''))
-        else:
-            return None
 
+class Policies(models.Model):
+    id = models.AutoField(primary_key=True)
+    policy_name = models.CharField(max_length=200)
+    policy_document = models.FileField(upload_to='media/', default=None)
+    objects = models.Manager()
 
 # payroll details
-class Salary(models.Model):
-    id = models.AutoField(primary_key=True)
-    staff_id = models.ForeignKey(Staff, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    date = models.DateField()
-
-
-class Allowance(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-
-
-class Deduction(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-
-
-class Payroll(models.Model):
-    id = models.AutoField(primary_key=True)
-    staff_id = models.ForeignKey(Staff, on_delete=models.CASCADE)
-    salary = models.OneToOneField(Salary, on_delete=models.CASCADE)
-    allowances = models.ManyToManyField(Allowance, blank=True)
-    deductions = models.ManyToManyField(Deduction, blank=True)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_date = models.DateField()
-
+# class Salary(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     staff_id = models.ForeignKey(Staff, on_delete=models.CASCADE)
+#     amount = models.DecimalField(max_digits=10, decimal_places=2)
+#     date = models.DateField()
+#
+#
+# class Benefits(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     name = models.CharField(max_length=100)
+#     amount = models.DecimalField(max_digits=10, decimal_places=2)
+#
+#
+# class Deduction(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     name = models.CharField(max_length=100)
+#     amount = models.DecimalField(max_digits=10, decimal_places=2)
+#
+#
+# class Payroll(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     staff_id = models.ForeignKey(Staff, on_delete=models.CASCADE)
+#     salary = models.OneToOneField(Salary, on_delete=models.CASCADE)
+#     benefits = models.ManyToManyField(Benefits, blank=True)
+#
 
 # Creating Django Signals
 

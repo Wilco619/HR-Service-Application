@@ -91,6 +91,7 @@
                                     <tr>
                                         <th>#ID</th>
                                         <th>Leave Date</th>
+                                        <th>Return Date</th>
                                         <th>Leave Message</th>
                                         <th>Status</th>
                                     </tr>
@@ -100,6 +101,7 @@
                                     <tr>
                                         <td>{{ leave.id }}</td>
                                         <td>{{ leave.leave_date }}</td>
+                                        <td>{{ leave.return_date }}</td>
                                         <td>{{ leave.leave_message }}</td>
                                         <td>
                                             {% if leave.leave_status == 1 %}

@@ -1,7 +1,7 @@
 {% extends 'hod_template/base_template.html' %}
 
 {% block page_title %}
-    Manage Staff Contract
+    Policies
 {% endblock page_title %}
 
 {% block main_content %}
@@ -41,7 +41,7 @@
                 <!-- general form elements -->
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Upload Contract</h3>
+                        <h3 class="card-title">Upload Policy</h3>
                         <div class="card-tools">
                             <div class="input-group input-group-sm" style="width: 150px;">
                                 <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
@@ -53,19 +53,18 @@
                     </div>
 
                     <!-- /.card-header -->
-                    <div class="card-body table-responsive p-0" style="display: flex;">
+                    <div class="card-body table-responsive p-0">
 
                         <div class="modal-body">
                             <div class="popup-layer">
                                 <div class="popup-card">
                                     <div class="popup-content">
-                                        <img src="{{ staff.profile_pic }}" style="width: 90px; height: 90px; border-radius: 50px; background-image: url('/static/dist/img/user-solid.svg');" />
-                                        <p><b>Name: </b>{{ staff.admin.first_name | capfirst }} {{ staff.admin.last_name | capfirst }}</p>
-
-                                        <form role="form" action="{% url 'staff_contract_save' %}" method="POST" enctype="multipart/form-data">
+                                        <form role="form" action="{% url 'upload_policy' %}" method="POST" enctype="multipart/form-data">
                                           {% csrf_token %}
-                                          <label for="pdf_file">Select pdf files: </label>
-                                          <input class="form-control" type="file" id="pdf_file" name="pdf_file" multiple><br><br>
+                                          <label for="policy_name">Policy Name: </label>
+                                          <input type="text" id="policy_name" class="form-control" name="policy_name" multiple><br><br>
+                                          <label for="policy_document">Select pdf files: </label>
+                                          <input class="form-control" type="file" id="policy_document" name="policy_document" multiple><br><br>
                                           <input class="btn btn-primary" type="submit">
                                         </form>
                                         <!-- Display other details here as needed -->
@@ -73,22 +72,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="modal-body" style="background-color: #D9EDBF;">
-                            <div class="popup-layer">
-                                <div class="popup-card">
-                                    <div class="popup-content">
-                                        Available Contract
-                                        {% for view in staff_view %}
-                                        <p><b>Name: </b>{{ view.pdf_file }}</p>
-
-                                        {% endfor %}
-                                        <!-- Display other details here as needed -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
 
                     </div>
                     <!-- /.card-body -->

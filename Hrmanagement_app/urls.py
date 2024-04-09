@@ -72,6 +72,8 @@ urlpatterns = [
     path('admin_get_attendance_staff/', HrViews.admin_get_attendance_staff, name="admin_get_attendance_staff"),
 
     path('admin_profile/', HrViews.admin_profile, name="admin_profile"),
+    path('policies/', HrViews.policies, name="policies"),
+    path('upload_policy/', HrViews.upload_policy, name="upload_policy"),
     path('admin_profile_update/', HrViews.admin_profile_update, name="admin_profile_update"),
     
 
@@ -107,4 +109,5 @@ urlpatterns = [
     path('staff_profile_update/', StaffViews.staff_profile_update, name="staff_profile_update"),
     path('staff_view_result/', StaffViews.staff_view_result, name="staff_view_result"),
     path('view_staff_contract/', StaffViews.view_staff_contract, name="view_staff_contract"),
+    path('view_policy/', StaffViews.view_policy, name="view_policy"),
 ]

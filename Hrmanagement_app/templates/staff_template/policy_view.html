@@ -1,0 +1,57 @@
+{% extends 'staff_template/base_template.html' %}
+
+{% block page_title %}
+    Policies
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="content">
+        <div class="container-fluid">
+
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-secondary">
+                        <div class="card-header">
+                            <h3 class="card-title">Polices</h3>
+                        </div>
+
+                        <div class="card-body">
+                           <div class="table-responsive">
+                                <table class="table">
+                                    <thead class="thead-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Policy Name</th>
+                                        <th>View Policy</th>
+                                    </tr>
+                                    </thead>
+
+                                    {% for row in policy %}
+                                    <tr>
+                                        <td>{{ row.id }}</td>
+                                        <td>{{ row.policy_name }}</td>
+                                        <td>Policy Document: <a href="{{ row.policy_document.url }}" target="_blank">View Document</a></td>
+
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+      </section>
+
+  {% endblock main_content %}
+
+{% block custom_js %}
+
+{% endblock custom_js %}

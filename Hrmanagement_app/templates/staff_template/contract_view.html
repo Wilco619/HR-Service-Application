@@ -24,8 +24,8 @@
                            <div class="table-responsive">
                             {% for contract in the_contract %}
                               {% if contract.pdf_file %}
-                                <iframe src="{{ contract.pdf_file.url }}" width="100%" height="600px" frameborder="0" scrolling="auto" allowfullscreen></iframe>
-                                <p><a href="{{ contract.pdf_file.url }}" download>Download PDF</a></p>
+                                <p>View Contract: <a href="{{ contract.pdf_file.url }}" target="_blank">View Document</a></p>
+                                <p><a href="{{ MEDIA_URL }}{{ contract.pdf_file.name }}" download>Download PDF</a></p>
                               {% else %}
                                 <p>No contract file uploaded yet.</p>
                               {% endif %}

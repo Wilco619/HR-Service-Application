@@ -6,7 +6,7 @@ from django.urls import reverse
 import datetime  # To Parse input DateTime into Python Date Time Object
 
 from Hrmanagement_app.models import CustomUser, Staff, Department, Position, Staff, Attendance, AttendanceReport, \
-    LeaveReportStaff, FeedBackStaff, StaffPoint, Contracts
+    LeaveReportStaff, FeedBackStaff, StaffPoint, Contracts, Policies
 
 
 def staff_home(request):
@@ -110,11 +110,12 @@ def staff_apply_leave_save(request):
         return redirect('staff_apply_leave')
     else:
         leave_date = request.POST.get('leave_date')
+        return_date = request.POST.get('return_date')
         leave_message = request.POST.get('leave_message')
 
         staff_obj = Staff.objects.get(admin=request.user.id)
         try:
-            leave_report = LeaveReportStaff(staff_id=staff_obj, leave_date=leave_date, leave_message=leave_message,
+            leave_report = LeaveReportStaff(staff_id=staff_obj, leave_date=leave_date, return_date=return_date, leave_message=leave_message,
                                             leave_status=0)
             leave_report.save()
             messages.success(request, "Applied for Leave.")
@@ -207,3 +208,11 @@ def view_staff_contract(request):
         "the_contract": the_contract,
     }
     return render(request, "staff_template/contract_view.html", context)
+
+
+def view_policy(request):
+    policy = Policies.objects.all()
+    context = {"policy": policy}
+    return render(request, "staff_template/policy_view.html", context)
+
+

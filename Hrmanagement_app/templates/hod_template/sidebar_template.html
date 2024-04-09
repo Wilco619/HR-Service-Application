@@ -177,6 +177,16 @@
               </a>
             </li>
 
+            <li class="nav-item">
+              {% url 'policies' as  policies %}
+              <a href="{{ policies }}" class="nav-link {% if request.path == policies %} active {% endif %}">
+                <i class="nav-icon fas fa-envelope-open-text"></i>
+                <p>
+                  Policies
+                </p>
+              </a>
+            </li>
+
           </ul>
         </nav>
         <!-- /.sidebar-menu -->

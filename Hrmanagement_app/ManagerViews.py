@@ -94,11 +94,12 @@ def manager_apply_leave_save(request):
         return redirect('manager_apply_leave')
     else:
         leave_date = request.POST.get('leave_date')
+        return_date = request.POST.get('leave_date')
         leave_message = request.POST.get('leave_message')
 
         manager_obj = Manager.objects.get(admin=request.user.id)
         try:
-            leave_report = LeaveReportManager(manager_id=manager_obj, leave_date=leave_date,
+            leave_report = LeaveReportManager(manager_id=manager_obj, leave_date=leave_date, return_date=return_date,
                                               leave_message=leave_message, leave_status=0)
             leave_report.save()
             messages.success(request, "Applied for Leave.")

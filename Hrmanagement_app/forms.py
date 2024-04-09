@@ -104,3 +104,8 @@ class StaffContractForm(forms.Form):
             if not pdf_file.name.endswith('.pdf'):
                 raise forms.ValidationError('File is not a PDF')
         return pdf_file
+
+
+class PolicyForm(forms.Form):
+    policy_name = forms.CharField(max_length=100)
+    policy_document = forms.FileField()

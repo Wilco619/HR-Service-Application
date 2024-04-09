@@ -92,6 +92,17 @@
               </a>
             </li>
 
+            <li class="nav-item">
+              {% url 'view_policy' as view_policy %}
+              <a href="{{ view_policy }}" class="nav-link {% if request.path == view_policy %} active {% endif %}">
+                <i class="nav-icon fas fa-comments"></i>
+                <p>
+                  Policy
+                  {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
+                </p>
+              </a>
+            </li>
+
           </ul>
         </nav>
         <!-- /.sidebar-menu -->
